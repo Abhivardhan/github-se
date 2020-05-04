@@ -38,12 +38,14 @@ class App extends React.Component {
 
         let pageIndex = this.state.pageIndex;
 
-        let res = await fetch(`https://api.github.com/users/${username}/repos?page=${pageIndex}&per_page=${PAGE_SIZE}`, {mode: 'no-cors'});
+        let res = await fetch(`https://api.github.com/users/${username}/repos?page=${pageIndex}&per_page=${PAGE_SIZE}`);
     
+        console.log(res);
         if(res.ok) {
-        let data = await res.json();
+            let data = await res.json();
+            console.log(data);
 
-        return {data, pageIndex: pageIndex + 1};
+            return {data, pageIndex: pageIndex + 1};
         }
 
         const error = (await res.json()).message;
@@ -52,7 +54,16 @@ class App extends React.Component {
     }
 
     fetchData = async (username) => {
-        this.setState({loader: true}, async () => {
+        this.setState({
+            user: null,
+            repos: [],
+            pageIndex: 1,
+            userDataError: null,
+            reposError: null,
+            error: null,
+            loader: true,
+            fetchingRepos: false
+        }, async () => {
         try {
             let [user, repos] = await Promise.all([this.fetchUserData(username), this.fetchUserRepos(username)]);
 
@@ -72,6 +83,7 @@ class App extends React.Component {
             });
 
         } catch(err) {
+            console.log(err);
             this.setState({
             error: "There was some error",
             loader: true
