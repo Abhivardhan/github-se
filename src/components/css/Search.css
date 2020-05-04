@@ -1,0 +1,9 @@
+.search-input {
+    width: 50% !important; 
+    margin: 0 auto;
+}
+
+.search-btn {
+    width: 80px;
+    margin: 20px calc(50% - 40px);
+}

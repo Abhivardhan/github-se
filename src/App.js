@@ -2,6 +2,7 @@ import React from 'react';
 import Search from './components/Search';
 import UserCard from './components/UserCard';
 import RepoCard from './components/RepoCard';
+import './App.css';
 
 const PAGE_SIZE = 10;
 
@@ -37,7 +38,7 @@ class App extends React.Component {
 
         let pageIndex = this.state.pageIndex;
 
-        let res = await fetch(`https://api.github.com/users/${username}/repos?page=${pageIndex}&per_page=${PAGE_SIZE}`);
+        let res = await fetch(`https://api.github.com/users/${username}/repos?page=${pageIndex}&per_page=${PAGE_SIZE}`, {mode: 'no-cors'});
     
         if(res.ok) {
         let data = await res.json();
@@ -139,12 +140,17 @@ class App extends React.Component {
 
         return (
         <div>
-            <Search fetchData={this.fetchData}/>
-            {loader && <p>Loading....</p>}
-            {userDataError && <p className="text-danger">{userDataError}</p>}
-            {!userDataError &&  user && <UserCard user={user}/> }
-            {reposError && <p className="text-danger">{reposError}</p>}
-            {!reposError &&  repos && repos.map((repo) => <RepoCard key={repo.id} repo={repo}/> )}
+            <div className="container">
+                
+                <Search fetchData={this.fetchData}/>
+                
+                {loader && <h4 style={{textAlign: "center"}}>Loading....</h4>}
+                {userDataError && <h4 className="text-danger" style={{textAlign: "center"}}>{userDataError}</h4>}
+                {!userDataError &&  user && <UserCard user={user}/> }
+                {reposError && <h4 className="text-danger" style={{textAlign: "center"}}>{reposError}</h4>}
+                {!reposError &&  repos.length > 0 && <h3 style={{textAlign: "center"}}>User Repositories</h3>}
+                {!reposError &&  repos && repos.map((repo) => <RepoCard key={repo.id} repo={repo}/> )}
+            </div>
         </div>
         );
     }

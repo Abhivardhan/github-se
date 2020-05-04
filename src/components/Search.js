@@ -1,5 +1,5 @@
 import React from 'react';
-
+import './css/Search.css';
 
 export default class Search extends React.Component {
 
@@ -20,9 +20,12 @@ export default class Search extends React.Component {
         const { username } = this.state; 
 
         return (
-            <div>
-                <input value={this.state.username} type="text" name="username" placeholder="Search User" onChange={this.handleInput}/>
-                <button onClick = {() => fetchData(username)} className="btn btn-large btn-success">Search</button>
+            <div className="jumbotron" style={{margin: "50px 100px"}}>
+                <h1 style={{textAlign: "center"}}> Search for User Repos in github</h1>
+                <input value={this.state.username} type="text" name="username" className="form-control search-input" placeholder="Search Username" onChange={this.handleInput}/>
+                <div>
+                    <button onClick = {() => fetchData(username)} className="btn btn-large btn-success search-btn">Search</button>
+                </div>
             </div>
         )
     }
